@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Series{% endblock %}
+
+{% block content %}
+<!-- Contenido específico para la lista de series -->
+<h2>Series Disponibles</h2>
+<ul>
+    {% for serie in series %}
+        <li><a href="{% url 'detalle_serie' serie.id %}">{{ serie.titulo }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

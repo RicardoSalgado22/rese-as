@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ serie.titulo }} - Reseñas de Series
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{ serie.titulo }}</h2>
+            {% if serie.imagen %}
+                <img src="{{ serie.imagen.url }}" class="img-fluid" alt="{{ serie.titulo }}">
+            {% endif %}
+            <p><strong>Descripción:</strong></p>
+            <p>{{ serie.descripcion }}</p>
+            <p><strong>Fecha de lanzamiento:</strong> {{ serie.fecha_lanzamiento }}</p>
+            <p><strong>Género:</strong> {{ serie.genero }}</p>
+            <p><strong>Número de episodios:</strong> {{ serie.numero_episodios }}</p>
+            <p><strong>Duración del episodio:</strong> {{ serie.duracion_episodio }} minutos</p>
+            <p><strong>Creador:</strong> {{ serie.creador }}</p>
+            {% if serie.etiquetas.all %}
+                <p><strong>Etiquetas:</strong> 
+                    {% for etiqueta in serie.etiquetas.all %}
+                        <span class="badge badge-secondary">{{ etiqueta.nombre }}</span>
+                    {% endfor %}
+                </p>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h3>Reseñas</h3>
+            {% if serie.reseñas.count > 0 %}
+                <ul class="list-group">
+                    {% for reseña in serie.reseñas.all %}
+                        <li class="list-group-item">
+                            <h5>{{ reseña.titulo }}</h5>
+                            <p><strong>Por:</strong> {{ reseña.usuario.username }}</p>
+                            <p><strong>Calificación:</strong> {{ reseña.calificacion }} / 5</p>
+                            <p>{{ reseña.contenido|truncatewords:20 }}</p>
+                            <small class="text-muted">{{ reseña.fecha_creacion }}</small>
+                            <a href="{% url 'detalle_reseña' reseña.pk %}" class="btn btn-primary btn-sm mt-2">Ver más</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay reseñas para esta serie.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Episodios</h3>
+            {% if serie.episodios.count > 0 %}
+                <ul class="list-group">
+                    {% for episodio in serie.episodios.all %}
+                        <li class="list-group-item">
+                            <h5>{{ episodio.titulo }} (Episodio {{ episodio.numero_episodio }})</h5>
+                            <p><strong>Fecha de emisión:</strong> {{ episodio.fecha_emision }}</p>
+                            <p>{{ episodio.descripcion|truncatewords:20 }}</p>
+                            <p><strong>Duración:</strong> {{ episodio.duracion }} minutos</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay episodios disponibles para esta serie.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

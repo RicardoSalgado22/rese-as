@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Detalle de la Reseña - {{ reseña.serie.titulo }} - Reseñas de Series
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Reseña de {{ reseña.serie.titulo }}</h2>
+            <p><strong>Autor:</strong> {{ reseña.usuario.username }}</p>
+            <p><strong>Fecha:</strong> {{ reseña.fecha_creacion }}</p>
+            <p><strong>Calificación:</strong> {{ reseña.calificacion }} / 5</p>
+            <p><strong>Título:</strong> {{ reseña.titulo }}</p>
+            <p><strong>Contenido:</strong></p>
+            <p>{{ reseña.contenido }}</p>
+            {% if reseña.episodio %}
+                <p><strong>Episodio:</strong> {{ reseña.episodio.titulo }} (Episodio {{ reseña.episodio.numero_episodio }})</p>
+            {% endif %}
+            {% if reseña.etiquetas.all %}
+                <p><strong>Etiquetas:</strong> 
+                    {% for etiqueta in reseña.etiquetas.all %}
+                        <span class="badge badge-secondary">{{ etiqueta.nombre }}</span>
+                    {% endfor %}
+                </p>
+            {% endif %}
+            <a href="{% url 'detalle_serie' reseña.serie.pk %}" class="btn btn-primary">Volver a la Serie</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

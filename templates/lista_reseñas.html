@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Lista de Reseñas - Reseñas de Series
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Lista de Reseñas</h2>
+            {% if reseñas %}
+                <ul class="list-group">
+                    {% for reseña in reseñas %}
+                        <li class="list-group-item">
+                            <h5>{{ reseña.serie.titulo }} - <small>por {{ reseña.usuario.username }}</small></h5>
+                            <p><strong>Título:</strong> {{ reseña.titulo }}</p>
+                            <p>{{ reseña.contenido|truncatewords:20 }}</p>
+                            <p><strong>Calificación:</strong> {{ reseña.calificacion }} / 5</p>
+                            <small class="text-muted">{{ reseña.fecha_creacion }}</small>
+                            <a href="{% url 'detalle_reseña' reseña.pk %}" class="btn btn-primary btn-sm mt-2">Ver más</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay reseñas disponibles.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
